@@ -21,6 +21,4 @@ const mongoosedb = async () =>{
         })
 })}
 
-mongoosedb()
-
 module.exports = mongoosedb
