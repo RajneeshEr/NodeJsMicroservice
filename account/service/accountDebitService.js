@@ -23,12 +23,14 @@ exports.debit = async (request, response)=> {
                 if(!error){
                     resolve(response.status(200).send({
                         msg : msg.UPDATE,
-                        amount : updateBalance
+                        amount : updateBalance,
+                        flag : true
                     }))
                     fastify.log.info('New balance updated in database : '+result.balance)
                 }else{
                     reject(response.status(200).send({
                         msg : msg.NOT_UPDATE,
+                        flag : false,
                         Object : error
                     }))
                     fastify.log.info('New balance not updated in database')
@@ -36,8 +38,9 @@ exports.debit = async (request, response)=> {
             })
         })
     }else{
-        response.status(204).send({
+        response.status(200).send({
             msg : msg.NOT_UPDATE,
+            flag : false
         })
     }
 }

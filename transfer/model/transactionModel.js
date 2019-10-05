@@ -5,9 +5,10 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
 
 const trasactionSchema = new Schema({
-    fromAccount : ObjectId,
-    ToAccount : ObjectId,
-    balance : Number
+    id: ObjectId,
+    FromAccount : String,
+    ToAccount : String,
+    Balance : Number
 })
 
 // This is also kind of middleware before save want's to perform some action

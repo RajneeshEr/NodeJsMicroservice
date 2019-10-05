@@ -7,8 +7,14 @@ const ObjectId = Schema.ObjectId
 const customerSchema = new Schema({
     firstName : String,
     lastName : String,
-    phoneNumber : String,
-    email: String,
+    phoneNumber : {
+        type : String,
+        unique : true
+    },
+    email: {
+        type : String,
+        unique : true
+    },
     age : String
 })
 
