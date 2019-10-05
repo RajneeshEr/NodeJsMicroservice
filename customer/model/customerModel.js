@@ -13,7 +13,7 @@ const customerSchema = new Schema({
 })
 
 // This is also kind of middleware before save want's to perform some action
-customerSchema.pre('create', (next)=>{
+customerSchema.pre('save', (next)=>{
     //TODO
     fastify.log.info('Do some validation on customer validation...')
 })
