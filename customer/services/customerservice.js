@@ -32,7 +32,7 @@ exports.findAll = async (request, respons)=> {
 
 exports.findById = async (request, respons)=>{
     const query = request.query.phoneNumber
-    CustomerModel.findOne({
+    await CustomerModel.findOne({
         phoneNumber : query
     },(error, result)=>{
         if(!result){

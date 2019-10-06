@@ -5,5 +5,5 @@ const path_widthdraw = '/transaction/withdrawal'
 
 module.exports = async ()=>{
     fastify.post(path_save, getHandler.insert)
-    fastify.post(path_widthdraw, getHandler.widthdrawal)
+    //fastify.post(path_widthdraw, getHandler.widthdrawal)
 }

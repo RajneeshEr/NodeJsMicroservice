@@ -2,10 +2,14 @@ const Transaction = require('../model/transactionModel')
 const fastify = require('../app')
 const msg = require('../config/constact')
 const axios = require('axios')
+const getCustomerhandler = require('../externalApi/customer')
  
 exports.insert = async (request, response) => {
     console.log(request.body)
 
+    const custInfo = await getCustomerhandler.CustomerApi(request, response)
+
+    console.log('inside transaction api flag value: '+custInfo)
 
     Transaction.create(request.body).
     then((result)=>{
@@ -31,15 +35,3 @@ exports.insert = async (request, response) => {
     })
 }
 
-async function getcust(){
-    await axios.get('http://localhost:3002/customer/getbyId',{
-        params: {
-            phoneNumber : 234234233432
-          }
-    })
-    .then((response)=>{
-        console.log(response)
-    }).catch((error)=> {
-        fastify.log.error(error)
-    })
-}
