@@ -7,8 +7,7 @@ const getCustomerhandler = require('../externalApi/customer')
 exports.insert = async (request, response) => {
     console.log(request.body)
 
-    const custInfo = await getCustomerhandler.CustomerApi(request, response)
-
+    const custInfo = await getCustomerhandler.findCustomerInfo(request, response)
     console.log('inside transaction api flag value: '+custInfo)
 
     Transaction.create(request.body).

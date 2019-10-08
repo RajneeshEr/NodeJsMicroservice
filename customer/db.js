@@ -5,7 +5,7 @@ const db_url_cluster='mongodb+srv://rajneesh:rajneesh@rajneesh-xjjlw.gcp.mongodb
 
 const mongoosedb = async () =>{
     mongoose.connect(
-    db_url_cluster,
+    db_url,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -13,11 +13,12 @@ const mongoosedb = async () =>{
     (error)=>{
         new Promise((resolve, reject)=>{
             if(error){
-                reject(fastify.log.error('Unable to connect with database...! '+ error))
+                reject(fastify.log.error('Unable to connect with database...! '))
+            }else{
+                resolve(fastify.log.info('Connected to dataBase successfully...!'))
             }
-            resolve(fastify.log.info('Connected to dataBase successfully...!'))
         }).catch((error)=>{
-            console.log(error)
+            fastify.log.error(error)
         })
 })}
 
