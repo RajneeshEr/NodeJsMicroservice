@@ -108,10 +108,10 @@ exports.findByPhoneNumber = async (request, respons)=>{
                     }
                     else if(result != null){
                         resolve(respons.status(200).send({
-                            msg : 'data find successfully for Id ' + query,
+                            msg : 'data find successfully for this phoneNumber : ' + query,
                             Object : result
                         }))
-                        fastify.log.info('data find successfully for Id ' + query)
+                        fastify.log.info('data find successfully for this phoneNumber : ' + query)
                     }else{
                         reject(respons.status(500).send({
                             error : 'Data not fond for this phoneNumber : ' + query

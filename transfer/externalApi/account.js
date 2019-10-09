@@ -1,18 +1,17 @@
 const fastify = require('../app')
 const axios = require('axios')
-var customerFlag
+var customerApiResponse = require('./customer')
 
-exports.findCustByPhone = async (reuest, response)=>{
-    await axios.get('http://localhost:3002/customer/getbyId',{
-        params: {
-            phoneNumber : 234234233432
-          }
-    })
-    .then((response)=>{
-        if(response)
-        customerFlag = true
-        console.log(response)
-    }).catch((error)=> {
-        fastify.log.error(error)
-    })
+async function getData(){
+
+    let res
+    try {
+        res = await customerApiResponse.findCustomerInfo()
+        console.log(res.data)
+    } catch (error) {
+        console.log(error)
+    }
+    // console.log(res.data)
 }
+
+getData()
