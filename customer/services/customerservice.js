@@ -4,124 +4,127 @@ const bodyparser = require('body-parser')
 const msg = require('../config/constact')
 
 exports.insert = async (request, respons)=> {
-    new Promise((resolve, reject)=>{
-    CustomerModel.create(request.body)
-    .then((result)=>{
-        if(result != null){
-            resolve(respons.status(201).send({
-                msg : msg.SAVE,
-                Object : result
-            }))
-            fastify.log.info(msg.SAVE)
-        }else{
-            reject(respons.status(200).send({
-                msg : msg.NOT_SAVE,
-                Object : result
-            }))
-            fastify.log.info(msg.NOT_SAVE)
-        }
-    }).catch((error)=>{
-        resolve(respons.status(200).send({
-            msg : msg.NOT_SAVE,
-            Object : error
-        }))
-        fastify.log.info(msg.NOT_SAVE + error)
-    })
+    return new Promise((resolve, reject)=>{
+        CustomerModel.create(request.body)
+        .then((result)=>{
+            if(result != null){
+                resolve(respons.status(201).send({
+                    msg : msg.SAVE,
+                    Object : result
+                }))
+                fastify.log.info(msg.SAVE)
+            }else{
+                reject(respons.status(500).send({
+                    msg : msg.NOT_SAVE,
+                    Object : result
+                }))
+                fastify.log.info(msg.NOT_SAVE)
+            }
+        }).catch((error)=>{
+                resolve(respons.status(500).send({
+                    msg : msg.NOT_SAVE,
+                    error : error.message
+                }))
+                fastify.log.info(msg.NOT_SAVE + error.message)
+        }) 
     })    
 }
 
 exports.findAll = async (request, respons)=> {
-    new Promise((resolve, reject)=>{
+    return new Promise((resolve, reject)=>{
         CustomerModel.find().then((result) => {
             if(result !=null){
                 resolve(respons.status(200).send({
                     msg : msg.FIND,
                     Object : result
                 }))
-                fastify.log.info('Data find successfully...')
+                fastify.log.info(msg.FIND)
             }else{
-                resolve(respons.status(404).send({
+                resolve(respons.status(500).send({
                     msg : msg.NOT_FIND,
                     Object : result
                 }))
                 fastify.log.info(msg.NOT_FIND)
             }
         }).catch((error)=> {
-            resolve(respons.status(404).send({
+            reject(respons.status(500).send({
                 msg : msg.NOT_FIND,
-                Object : error
+                error : error.message
             }))
             fastify.log.info(msg.NOT_FIND)
         })
     })
 }
 
-// exports.findById = async (request, respons)=>{
-//     const query = request.query.phoneNumber
-//     console.log(query)
-//     new Promise((resolve, reject)=>{
-//         CustomerModel.findOne(
-//             {
-//                 phoneNumber : query
-//             },
-//             (error, result)=>{
-//                 console.log(result)
-//                 if(result != null){
-//                     resolve(respons.status(200).send({
-//                         msg : 'data find successfully for Id ' + query,
-//                         Object : result
-//                     }))
-//                     fastify.log.info('data find successfully for Id ' + query)
-//                 }else{
-//                     reject(respons.status(404).send({
-//                         msg : 'data not find successfully for Id ' + query,
-//                     }))
-//                     fastify.log.error(error)
-//                 }
-//             }
-//         )
-//     })
-// }
+exports.findById = async (request, respons)=>{
+    const query = request.query.custID
+    console.log(JSON.stringify(query))
+    if(query !== null || query !== undefined){
+        return new Promise((resolve, reject)=>{
+            CustomerModel.findOne(
+                { _id : query},
+                (error, result)=>{
+                    if(error !=null){
+                        reject(respons.status(500).send({
+                            error : error.message
+                        }))
+                        fastify.log.error(error)
+                    }
+                    else if(result != null){
+                        resolve(respons.status(200).send({
+                            msg : `data find successfully...`,
+                            Object : result
+                        }))
+                        fastify.log.info('data find successfully...')
+                    }else{
+                        reject(respons.status(500).send({
+                            msg : 'data not find successfully...',
+                        }))
+                        fastify.log.error(error)
+                    }
+                }
+            )
+        })
+    }else{
+        respons.status(500).send({
+            error : 'Data not fond for this Id : ' + query
+        })
+        fastify.log.error('Data not fond for this Id : ' + query)
+    }
+}
 
 exports.findByPhoneNumber = async (request, respons)=>{
     const query = request.query.phoneNumber
-    console.log(query)
-    // new Promise((resolve, reject)=>{
-        CustomerModel.findOne(
-            {
-                phoneNumber : query
-            },
-            (error, result)=>{
-                console.log(result)
-                if(result != null){
-                    respons.status(200).send({
-                        msg : 'data find successfully for Id ' + query,
-                        Object : result
-                    })
-                    fastify.log.info('data find successfully for Id ' + query)
-                }else{
-                    respons.status(404).send({
-                        msg : 'data not find successfully for Id ' + query,
-                    })
-                    fastify.log.error(error)
+    if(query !== null || query!== undefined){
+        return new Promise((resolve, reject)=>{
+            CustomerModel.findOne(
+                {phoneNumber : query},
+                (error, result)=>{
+                    if(error !=null){
+                        reject(respons.status(500).send({
+                            error : error.message
+                        }))
+                        fastify.log.error(error)
+                    }
+                    else if(result != null){
+                        resolve(respons.status(200).send({
+                            msg : 'data find successfully for Id ' + query,
+                            Object : result
+                        }))
+                        fastify.log.info('data find successfully for Id ' + query)
+                    }else{
+                        reject(respons.status(500).send({
+                            error : 'Data not fond for this phoneNumber : ' + query
+                        }))
+                        fastify.log.error('Data not fond for this phoneNumber : ' + query)
+                    }
                 }
-            }
-        )
-    //})
+            )
+        })
+    }else{
+        respons.status(500).send({
+            error : 'Data not fond for this phoneNumber : ' + query
+        })
+        fastify.log.error('Data not fond for this phoneNumber : ' + query)
+    }
 }
-
-// await CustomerModel.findOne({
-//     phoneNumber : query
-// },(error, result)=>{
-//     if(!result){
-//         respons.status(404).send({
-//             msg : 'data not find successfully for Id ' + query,
-//         })
-//         fastify.log.error(error)
-//     }
-//     respons.status(200).send({
-//         msg : 'data find successfully for Id ' + query,
-//         Object : result
-//     })
-//     fastify.log.info('data find successfully for Id ' + query)
-// })

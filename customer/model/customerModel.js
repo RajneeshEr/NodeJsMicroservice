@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
 
 const customerSchema = new Schema({
+    id : ObjectId,
     firstName : String,
     lastName : String,
     phoneNumber : {
