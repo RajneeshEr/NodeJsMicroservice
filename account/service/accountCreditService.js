@@ -4,10 +4,8 @@ const AccountModel = require('../model/accountModel')
 const balance = require('./findAccountBalance')
 
 
-exports.debit = async (request, response, next)=> {
-
+exports.credit = async (request, response)=> {
     let accountbalance
-
     try {
         accountbalance = await balance.findAccoutDetails(request, response)
     } catch (error) {
@@ -25,6 +23,7 @@ exports.debit = async (request, response, next)=> {
     }
 
     var updateBalance = await calculatebalance(accountbalance.balance, request.body.balance)
+    fastify.log.info('Updated balance calcuated : '+updateBalance)
 
     if(updateBalance!=NaN || updateBalance!=undefined){
         await AccountModel.findOneAndUpdate({
@@ -64,9 +63,5 @@ exports.debit = async (request, response, next)=> {
 }
 
 async function calculatebalance(num1, num2){
-    if(num1 > num2){
-        return num1-num2
-    }else{
-        return NaN
-    }
+    return num1+num2    
 }

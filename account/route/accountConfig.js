@@ -1,7 +1,7 @@
 const fastify = require('../app')
 const getHandler = require('../service/accountService')
 const path_getAll = '/account/getall'
-const path_getByPhoneNumber = '/account/getbycustId:custId'
+const path_getByPhoneNumber = '/account/getbyCustId:custId'
 const path_getByCustIdAndAccType = '/account/getbycustIdAndtype:custId&:type'
 
 

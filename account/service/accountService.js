@@ -4,7 +4,7 @@ const bodyparser = require('body-parser')
 const msg = require('../config/constact')
 
 exports.insert = async (request, respons)=> {
-    AccountModel.create(request.body)
+    await AccountModel.create(request.body)
     .then((result)=>{
         if(!result){
             fastify.log.error(msg.NOT_SAVE)
@@ -23,7 +23,7 @@ exports.insert = async (request, respons)=> {
 }
 
 exports.findAll = async (request, respons)=> {
-    AccountModel.find().then((result) => {
+    await AccountModel.find().then((result) => {
         if(!result){
             respons.status(200).send({
                 msg : msg.FIND,
@@ -47,10 +47,10 @@ exports.findAll = async (request, respons)=> {
 
 exports.findByCustId = async (request, respons)=>{
     const query = request.query.custId
-    AccountModel.findOne({
+    await AccountModel.findOne({
         custId : query
     },(error, result)=>{
-        if(!result){
+        if(result == null){
             respons.status(404).send({
                 msg : 'data not find successfully for Id ' + query,
             })
@@ -69,11 +69,11 @@ exports.findByCustIdAndAccType = async (request, respons)=>{
     const query1 = request.query.custId
     const query2 = request.query.type
     console.log(query1+query2)
-    AccountModel.findOne({
+    await AccountModel.findOne({
         custId : query1,
         type : query2
     },(error, result)=>{
-        if(!result){
+        if(result == null){
             respons.status(404).send({
                 msg : 'data not find successfully for Cust Id ' + query1 + ' and for account type '+query2,
             })
