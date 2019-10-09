@@ -6,9 +6,10 @@ const ObjectId = Schema.ObjectId
 
 const trasactionSchema = new Schema({
     id: ObjectId,
-    FromAccount : String,
-    ToAccount : String,
-    Balance : Number
+    fromAccount : String,
+    toAccount : String,
+    balance : Number,
+    //status : String
 })
 
 // This is also kind of middleware before save want's to perform some action

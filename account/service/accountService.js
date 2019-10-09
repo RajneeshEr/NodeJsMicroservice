@@ -87,3 +87,39 @@ exports.findByCustIdAndAccType = async (request, respons)=>{
         }
     })
 }
+
+exports.findByAccountNumber = async (request, respons)=>{
+    const query = request.query.accNumber
+    if(query !== null || query!== undefined){
+        return new Promise((resolve, reject)=>{
+            AccountModel.findOne(
+                {accNumber : query},
+                (error, result)=>{
+                    if(error !=null){
+                        reject(respons.status(500).send({
+                            error : error.message
+                        }))
+                        fastify.log.error(error)
+                    }
+                    else if(result != null){
+                        resolve(respons.status(200).send({
+                            msg : 'data find successfully for this account number : ' + query,
+                            Object : result
+                        }))
+                        fastify.log.info('data find successfully for this account number : ' + query)
+                    }else{
+                        reject(respons.status(500).send({
+                            error : 'Data not fond for this account number : ' + query
+                        }))
+                        fastify.log.error('Data not fond for this account number : ' + query)
+                    }
+                }
+            )
+        })
+    }else{
+        respons.status(500).send({
+            error : 'Data not fond for this account number : ' + query
+        })
+        fastify.log.error('Data not fond for this account number : ' + query)
+    }
+}
