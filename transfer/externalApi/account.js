@@ -3,13 +3,13 @@ const axios = require('axios')
 const base_url = ''
 
 exports.findAccountByCustId = async (req, res)=>{
-    return axios.get('http://localhost:3001/account/getbyCustId:custId',{
+    return axios.get('https://rajneeshaccountservice.herokuapp.com/account/getbyCustId:custId',{
         params:{custId : req.body.custId}    
     })
 }
 
 exports.findAccountDetailsByAccountNumber = async (accountNumber)=>{
-    return axios.get('http://localhost:3001/account/getbyAccountNumber',{
+    return axios.get('https://rajneeshaccountservice.herokuapp.com/account/getbyAccountNumber',{
         params:{accNumber : accountNumber}    
     })
 }
@@ -17,7 +17,7 @@ exports.findAccountDetailsByAccountNumber = async (accountNumber)=>{
 exports.debitAccount = async (accountNumber, debitbalance)=>{
     return axios({
         method: 'post',
-        url: 'http://localhost:3001/account/debit',
+        url: 'https://rajneeshaccountservice.herokuapp.com/account/debit',
         data: {
             "accNumber" : accountNumber,
             "balance" : debitbalance
@@ -28,7 +28,7 @@ exports.debitAccount = async (accountNumber, debitbalance)=>{
 exports.creditAccount = async (accountNumber, creditbalance)=>{
     return axios({
         method: 'post',
-        url: 'http://localhost:3001/account/credit',
+        url: 'https://rajneeshaccountservice.herokuapp.com/account/credit',
         data: {
             "accNumber" : accountNumber,
             "balance" : creditbalance

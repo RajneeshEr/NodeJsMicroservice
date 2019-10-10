@@ -24,7 +24,7 @@ exports.insert = async (request, respons)=> {
 
 exports.findAll = async (request, respons)=> {
     await AccountModel.find().then((result) => {
-        if(!result){
+        if(result !==null){
             respons.status(200).send({
                 msg : msg.FIND,
                 Object : result
@@ -73,17 +73,23 @@ exports.findByCustIdAndAccType = async (request, respons)=>{
         custId : query1,
         type : query2
     },(error, result)=>{
-        if(result == null){
+        if(error !== null){
             respons.status(404).send({
-                msg : 'data not find successfully for Cust Id ' + query1 + ' and for account type '+query2,
+                msg : 'data not find successfully...',
+            })
+            fastify.log.error(error)
+        }
+        else if(result == null){
+            respons.status(404).send({
+                msg : 'data not find successfully...',
             })
             fastify.log.error(error)
         }else{
             respons.status(200).send({
-                msg : 'data find successfully for Cust Id ' + query1 + ' and for account type '+query2,
+                msg : 'data find successfully...',
                 Object : result
             })
-            fastify.log.info('data not find successfully for Cust Id ' + query1 + ' and for account type '+query2)
+            fastify.log.info('data find successfully...')
         }
     })
 }

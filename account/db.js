@@ -5,7 +5,7 @@ const db_url_cluster='mongodb+srv://rajneesh:rajneesh@rajneesh-xjjlw.gcp.mongodb
 
 const mongoosedb = async () =>{
     mongoose.connect(
-    db_url,
+    db_url_cluster,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
