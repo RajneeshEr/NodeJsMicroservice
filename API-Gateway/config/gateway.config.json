@@ -1,0 +1,118 @@
+{
+  "http": {
+    "port": 8080
+  },
+  "admin": {
+    "port": 9876,
+    "hostname": "localhost"
+  },
+  "apiEndpoints": {
+    "api": {
+      "host": "localhost",
+      "paths": "/ip"
+    },
+    "cust": {
+      "host": "localhost",
+      "paths": "/customer/*"
+    },
+    "product": {
+      "host": "localhost",
+      "paths":  "/account/*" 
+    }
+},
+  "serviceEndpoints": {
+    "httpbin": {
+      "url": "https://httpbin.org"
+    },
+    "custsrv": {
+      "url": "http://localhost:3002/"
+    },
+    "prodsrv": {
+      "url": "http://localhost:3001/"
+    },
+    "txnsrv": {
+      "url": "http://localhost:3003/"
+    }
+  },
+  "policies": [
+    "basic-auth",
+    "key-auth",
+    "cors",
+    "expression",
+    "log",
+    "oauth2",
+    "proxy",
+    "rate-limit"
+  ],
+  "pipelines": [
+    {
+      "name": "default",
+      "apiEndpoints": [
+        "api"
+      ],
+      "policies": [
+{
+          "proxy": [
+            {
+              "action": {
+                "serviceEndpoint": "httpbin",
+                "changeOrigin": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "default-1",
+      "apiEndpoints": [
+        "cust"
+      ],
+      "policies": [
+    {
+          "proxy": [
+            {
+              "action": {
+                "serviceEndpoint": "custsrv"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "default-2",
+      "apiEndpoints": [
+        "product"
+      ],
+      "policies": [
+{
+          "proxy": [
+            {
+              "action": {
+                "serviceEndpoint": "prodsrv"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "default-3",
+      "apiEndpoints": [
+        "product"
+      ],
+      "policies": [
+{
+          "proxy": [
+            {
+              "action": {
+                "serviceEndpoint": "txnsrv"
+              }
+            }
+          ]
+        }
+      ]
+    }
+]
+}
