@@ -18,7 +18,12 @@
     "product": {
       "host": "localhost",
       "paths":  "/account/*" 
+    },
+    "transfer": {
+      "host": "localhost",
+      "paths":  "/transaction/*" 
     }
+
 },
   "serviceEndpoints": {
     "httpbin": {
